@@ -1,1 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"></Project>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <Folder Include="Genres\" />
+    <Folder Include="Movies\" />
+  </ItemGroup>
+</Project>
