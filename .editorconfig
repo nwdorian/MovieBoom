@@ -148,9 +148,6 @@ csharp_preserve_single_line_blocks = true
 
 # Custom rules
 
-# MA0004: Use Task.ConfigureAwait(false) if the current SynchronizationContext is not needed
-dotnet_diagnostic.MA0004.severity = none
-
 # CS1998: This async method lacks 'await' operators and will run synchronously.
 dotnet_diagnostic.CS1998.severity = error
 
@@ -182,5 +179,3 @@ dotnet_diagnostic.CA1000.severity = none
 [**/Migrations/*.cs]
 # IDE0161 Use file-scoped namespace (EF Core migrations are auto-generated with block-scoped namespace)
 dotnet_diagnostic.IDE0161.severity = none
-dotnet_diagnostic.MA0048.severity = none
-dotnet_diagnostic.MA0051.severity = none
