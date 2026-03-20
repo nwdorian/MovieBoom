@@ -1,6 +1,12 @@
-﻿WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+﻿using Infrastructure;
+using Web.Extensions;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.ConfigureServices();
 
 WebApplication app = builder.Build();
 

@@ -182,3 +182,5 @@ dotnet_diagnostic.CA1000.severity = none
 [**/Migrations/*.cs]
 # IDE0161 Use file-scoped namespace (EF Core migrations are auto-generated with block-scoped namespace)
 dotnet_diagnostic.IDE0161.severity = none
+dotnet_diagnostic.MA0048.severity = none
+dotnet_diagnostic.MA0051.severity = none
