@@ -10,5 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
+    <Folder Include="Models\Users\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
 </Project>

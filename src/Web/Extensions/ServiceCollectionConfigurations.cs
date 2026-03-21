@@ -38,8 +38,8 @@ public static class ServiceCollectionConfigurations
             options.Cookie.HttpOnly = true;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-            options.LoginPath = "/Account/Login";
-            options.AccessDeniedPath = "/Account/AccessDenied";
+            options.LoginPath = "/Users/Login";
+            options.AccessDeniedPath = "/Users/AccessDenied";
             options.SlidingExpiration = true;
         });
     }
