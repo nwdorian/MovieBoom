@@ -13,7 +13,7 @@ public class UsersController(IUserService userService) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(UserCreate userCreate)
+    public async Task<IActionResult> Register(UserCreate userCreate, string? returnUrl = null)
     {
         if (!ModelState.IsValid)
         {
@@ -21,13 +21,13 @@ public class UsersController(IUserService userService) : Controller
         }
 
         Result createUser = await userService.Register(userCreate.Email, userCreate.Password);
-
         if (createUser.IsFailure)
         {
             ModelState.AddModelError(string.Empty, createUser.Error.Description);
             return View();
         }
 
-        return LocalRedirect("/Users/Login");
+        returnUrl ??= Url.Content("~/");
+        return LocalRedirect(returnUrl);
     }
 }

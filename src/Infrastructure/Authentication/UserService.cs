@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Authentication;
 
-public class UserService(UserManager<IdentityUser<Guid>> userManager) : IUserService
+public class UserService(UserManager<IdentityUser<Guid>> userManager, SignInManager<IdentityUser<Guid>> signInManager)
+    : IUserService
 {
     public async Task<Result> Register(string email, string password)
     {
@@ -16,6 +17,8 @@ public class UserService(UserManager<IdentityUser<Guid>> userManager) : IUserSer
         {
             return UserErrors.RegistrationFailed(result.Errors);
         }
+
+        await signInManager.SignInAsync(user, false);
 
         return Result.Success();
     }
