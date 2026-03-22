@@ -1,8 +1,5 @@
-﻿using Application.Abstractions;
-using Application.Abstractions.Database;
-using Infrastructure.Authentication;
+﻿using Application.Abstractions.Database;
 using Infrastructure.Database;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,8 +11,6 @@ public static class DependencyInjection
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDatabase(configuration);
-        services.AddIdentityStore();
-        services.AddScoped<IUserService, UserService>();
     }
 
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -29,14 +24,5 @@ public static class DependencyInjection
         );
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-    }
-
-    private static void AddIdentityStore(this IServiceCollection services)
-    {
-        services
-            .AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(options =>
-                options.SignIn.RequireConfirmedAccount = false
-            )
-            .AddEntityFrameworkStores<ApplicationDbContext>();
     }
 }
