@@ -7,11 +7,13 @@
         <PackageVersion Include="IDisposableAnalyzers" Version="4.0.8" />
         <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.21.0.135717" />
         <!-- Web -->
+        <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.5" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.5" PrivateAssets="all" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5" PrivateAssets="all" />
+        <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
         <!-- Application -->
         <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
         <!-- Infrastructure -->
-        <PackageVersion Include="Microsoft.AspNetCore.Identity" Version="2.3.9" />
         <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.5" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.5" />
         <!-- Tests -->
