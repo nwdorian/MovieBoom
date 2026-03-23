@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <Folder Include="Genres\" />
-    <Folder Include="Movies\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Common\" />
+        <Folder Include="Common\Results\" />
+        <Folder Include="Genres\" />
+        <Folder Include="Movies\" />
+    </ItemGroup>
 </Project>

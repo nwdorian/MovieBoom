@@ -1,1 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"></Project>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Database\" />
+        <Folder Include="Genres\" />
+        <Folder Include="Movies\" />
+        <Folder Include="Roles\" />
+        <Folder Include="Users\" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Application\Application.csproj" />
+    </ItemGroup>
+</Project>
