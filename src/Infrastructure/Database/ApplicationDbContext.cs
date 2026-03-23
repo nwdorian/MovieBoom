@@ -1,14 +1,15 @@
 ﻿using Application.Abstractions.Database;
 using Domain.Genres;
 using Domain.Movies;
-using Microsoft.AspNetCore.Identity;
+using Infrastructure.Roles;
+using Infrastructure.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database;
 
 public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>(options),
+    : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>(options),
         IApplicationDbContext
 {
     public DbSet<Movie> Movies { get; set; }

@@ -1,6 +1,5 @@
-﻿using Domain.Genres;
-using Domain.Movies;
-using Microsoft.AspNetCore.Identity;
+﻿using Domain.Movies;
+using Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,8 +17,8 @@ public class MovieConfiguration : IEntityTypeConfiguration<Movie>
 
         builder.Property(m => m.Price).HasPrecision(18, 2);
 
-        builder.HasOne<Genre>().WithMany().HasForeignKey(m => m.GenreId);
+        builder.HasOne(m => m.Genre).WithMany(g => g.Movies).HasForeignKey(m => m.GenreId);
 
-        builder.HasOne<IdentityUser<Guid>>().WithMany().HasForeignKey(m => m.UserId).OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne<ApplicationUser>().WithMany().HasForeignKey(m => m.UserId).OnDelete(DeleteBehavior.Cascade);
     }
 }

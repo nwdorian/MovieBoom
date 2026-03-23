@@ -7,6 +7,8 @@
         <Folder Include="Database\" />
         <Folder Include="Genres\" />
         <Folder Include="Movies\" />
+        <Folder Include="Roles\" />
+        <Folder Include="Users\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Application\Application.csproj" />
