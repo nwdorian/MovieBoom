@@ -4,8 +4,14 @@ namespace Web.Extensions;
 
 public static class WebApplicationExtensions
 {
-    public static void UseWebApplicationMiddleware(this WebApplication app)
+    public static async Task UseWebApplicationMiddleware(this WebApplication app)
     {
+        if (app.Environment.IsDevelopment())
+        {
+            await app.ApplyMigrations();
+            await app.SeedDatabase();
+        }
+
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");

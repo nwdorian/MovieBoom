@@ -11,6 +11,7 @@ public static class DependencyInjection
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDatabase(configuration);
+        services.AddScoped<DataSeeder>();
     }
 
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)

@@ -15,12 +15,11 @@ try
 
     builder.Services.AddPresentation(builder.Configuration);
     builder.Services.AddInfrastructure(builder.Configuration);
-
     builder.Services.ConfigureServices();
 
     WebApplication app = builder.Build();
 
-    app.UseWebApplicationMiddleware();
+    await app.UseWebApplicationMiddleware();
 
     await app.RunAsync();
 }
