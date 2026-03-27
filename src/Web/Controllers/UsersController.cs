@@ -73,4 +73,13 @@ public class UsersController(UserManager<ApplicationUser> userManager, SignInMan
 
         return LocalRedirect(returnUrl!);
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        await signInManager.SignOutAsync();
+
+        return RedirectToAction(nameof(HomeController.Index), "Home");
+    }
 }
