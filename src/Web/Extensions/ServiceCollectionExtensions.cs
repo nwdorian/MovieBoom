@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     private static void AddIdentityServices(this IServiceCollection services)
     {
         services
-            .AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddEntityFrameworkStores<ApplicationDbContext>();
     }
 

@@ -1,15 +1,14 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.Users;
 
 public class UserRegister
 {
-    [DisplayName("First name")]
+    [Display(Name = "First name")]
     [StringLength(120)]
     public string? FirstName { get; set; }
 
-    [DisplayName("Last name")]
+    [Display(Name = "Last name")]
     [StringLength(120)]
     public string? LastName { get; set; }
 
