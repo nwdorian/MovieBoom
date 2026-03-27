@@ -1,4 +1,7 @@
-﻿using Infrastructure.Authorization;
+﻿using System.Text.Encodings.Web;
+using Application.Abstractions.Emails;
+using Application.Contracts.Emails;
+using Infrastructure.Authorization;
 using Infrastructure.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,8 +9,11 @@ using Web.Models.Users;
 
 namespace Web.Controllers;
 
-public class UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
-    : Controller
+public class UsersController(
+    UserManager<ApplicationUser> userManager,
+    SignInManager<ApplicationUser> signInManager,
+    IEmailService emailService
+) : Controller
 {
     [HttpGet]
     public IActionResult Register()
@@ -86,5 +92,91 @@ public class UsersController(UserManager<ApplicationUser> userManager, SignInMan
         await signInManager.SignOutAsync();
 
         return RedirectToAction(nameof(HomeController.Index), "Home");
+    }
+
+    [HttpGet]
+    public IActionResult ForgotPassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword(ForgotPassword input)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(input);
+        }
+
+        ApplicationUser? user = await userManager.FindByEmailAsync(input.Email);
+        if (user is null)
+        {
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        }
+
+        string token = await userManager.GeneratePasswordResetTokenAsync(user);
+        string? callback = Url.Action(
+            nameof(ResetPassword),
+            "Users",
+            new { token, email = user.Email },
+            Request.Scheme
+        );
+        EmailRequest emailRequest = new(
+            user.Email!,
+            "Reset password token",
+            $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callback!)}'>clicking here</a>."
+        );
+
+        await emailService.SendEmail(emailRequest);
+
+        return RedirectToAction(nameof(ForgotPasswordConfirmation));
+    }
+
+    [HttpGet]
+    public IActionResult ForgotPasswordConfirmation()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult ResetPassword(string token, string email)
+    {
+        ResetPassword model = new() { Token = token, Email = email };
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(ResetPassword input)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(input);
+        }
+
+        ApplicationUser? user = await userManager.FindByEmailAsync(input.Email);
+        if (user is null)
+        {
+            return RedirectToAction(nameof(ResetPasswordConfirmation));
+        }
+
+        IdentityResult result = await userManager.ResetPasswordAsync(user, input.Token, input.Password);
+        if (!result.Succeeded)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View();
+        }
+
+        return RedirectToAction(nameof(ResetPasswordConfirmation));
+    }
+
+    [HttpGet]
+    public IActionResult ResetPasswordConfirmation()
+    {
+        return View();
     }
 }

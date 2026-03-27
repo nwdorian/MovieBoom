@@ -8,6 +8,7 @@ public static class ServiceCollectionConfigurations
     {
         services.ConfigureIdentityOptions();
         services.ConfigureCookieOptions();
+        services.ConfigureTokenOptions();
     }
 
     private static void ConfigureIdentityOptions(this IServiceCollection services)
@@ -42,5 +43,12 @@ public static class ServiceCollectionConfigurations
             options.AccessDeniedPath = "/Users/AccessDenied";
             options.SlidingExpiration = true;
         });
+    }
+
+    private static void ConfigureTokenOptions(this IServiceCollection services)
+    {
+        services.Configure<DataProtectionTokenProviderOptions>(options =>
+            options.TokenLifespan = TimeSpan.FromHours(2)
+        );
     }
 }
