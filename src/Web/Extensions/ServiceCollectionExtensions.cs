@@ -1,4 +1,5 @@
-﻿using Infrastructure.Database;
+﻿using Infrastructure.Authorization;
+using Infrastructure.Database;
 using Infrastructure.Users;
 using Serilog;
 
@@ -16,7 +17,7 @@ public static class ServiceCollectionExtensions
     private static void AddIdentityServices(this IServiceCollection services)
     {
         services
-            .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ApplicationDbContext>();
     }
 

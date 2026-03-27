@@ -4,10 +4,10 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="Authorization\" />
         <Folder Include="Database\" />
         <Folder Include="Genres\" />
         <Folder Include="Movies\" />
-        <Folder Include="Roles\" />
         <Folder Include="Users\" />
     </ItemGroup>
     <ItemGroup>
