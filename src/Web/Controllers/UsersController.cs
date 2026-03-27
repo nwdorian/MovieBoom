@@ -71,7 +71,12 @@ public class UsersController(UserManager<ApplicationUser> userManager, SignInMan
             return View();
         }
 
-        return LocalRedirect(returnUrl!);
+        if (returnUrl is null)
+        {
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        return LocalRedirect(returnUrl);
     }
 
     [HttpPost]
