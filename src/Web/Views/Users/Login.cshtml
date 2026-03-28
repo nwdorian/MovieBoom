@@ -38,10 +38,12 @@
                 </div>
                 <hr />
             </form>
-            <div class="text-center">
-                <p>Want to explore first? Try a demo user!</p>
-                <a class="btn btn-secondary" asp-action="DemoLogin">Member</a>
-            </div>
+            <form asp-action="DemoLogin" method="post" class="d-inline">
+                <div class="form-group text-center">
+                    <p>Want to explore first? Try a demo user!</p>
+                    <button type="submit" class="btn btn-secondary">Member</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
