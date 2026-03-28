@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
     private static void AddIdentityServices(this IServiceCollection services)
     {
         services
-            .AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
+            .AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
     }

@@ -43,9 +43,43 @@ public class UsersController(
             return View(input);
         }
 
+        string token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        string? callback = Url.Action(nameof(ConfirmEmail), "Users", new { token, email = user.Email }, Request.Scheme);
+
+        EmailRequest emailRequest = new(
+            user.Email,
+            "Confirmation email link",
+            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callback!)}'>clicking here</a>."
+        );
+        await emailService.SendEmail(emailRequest);
+
         await userManager.AddToRoleAsync(user, Roles.Member);
 
-        return RedirectToAction(nameof(HomeController.Index), "Home");
+        return RedirectToAction(nameof(SuccessRegistration));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ConfirmEmail(string token, string email)
+    {
+        ApplicationUser? user = await userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            return View(nameof(Error));
+        }
+
+        IdentityResult result = await userManager.ConfirmEmailAsync(user, token);
+        if (!result.Succeeded)
+        {
+            return View(nameof(Error));
+        }
+
+        return View(nameof(ConfirmEmail));
+    }
+
+    [HttpGet]
+    public IActionResult SuccessRegistration()
+    {
+        return View();
     }
 
     [HttpGet]
@@ -73,7 +107,7 @@ public class UsersController(
 
         if (!result.Succeeded)
         {
-            ModelState.AddModelError(string.Empty, "Invalid username or password");
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View();
         }
 
@@ -124,7 +158,7 @@ public class UsersController(
         );
         EmailRequest emailRequest = new(
             user.Email!,
-            "Reset password token",
+            "Reset password link",
             $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callback!)}'>clicking here</a>."
         );
 
@@ -176,6 +210,12 @@ public class UsersController(
 
     [HttpGet]
     public IActionResult ResetPasswordConfirmation()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Error()
     {
         return View();
     }
