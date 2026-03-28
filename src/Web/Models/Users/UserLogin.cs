@@ -14,6 +14,6 @@ public class UserLogin
     public string Password { get; set; } = string.Empty;
 
     [JsonRequired]
-    [Display(Name = "Remember me?")]
+    [Display(Name = "Remember me")]
     public bool RememberMe { get; set; }
 }
