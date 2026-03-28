@@ -8,6 +8,7 @@ public static class ServiceCollectionConfigurations
     {
         services.ConfigureIdentityOptions();
         services.ConfigureCookieOptions();
+        services.ConfigureTokenOptions();
     }
 
     private static void ConfigureIdentityOptions(this IServiceCollection services)
@@ -28,6 +29,7 @@ public static class ServiceCollectionConfigurations
             options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             options.User.RequireUniqueEmail = true;
+            options.SignIn.RequireConfirmedEmail = true;
         });
     }
 
@@ -38,9 +40,16 @@ public static class ServiceCollectionConfigurations
             options.Cookie.HttpOnly = true;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-            options.LoginPath = "/Identity/Account/Login";
-            options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            options.LoginPath = "/Users/Login";
+            options.AccessDeniedPath = "/Users/AccessDenied";
             options.SlidingExpiration = true;
         });
+    }
+
+    private static void ConfigureTokenOptions(this IServiceCollection services)
+    {
+        services.Configure<DataProtectionTokenProviderOptions>(options =>
+            options.TokenLifespan = TimeSpan.FromHours(2)
+        );
     }
 }

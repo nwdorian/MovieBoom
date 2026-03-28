@@ -29,7 +29,6 @@ public static class WebApplicationExtensions
         app.MapStaticAssets();
 
         app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
-        app.MapRazorPages();
     }
 
     private static void UseCustomSerilogRequestLogging(this WebApplication app)

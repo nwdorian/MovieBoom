@@ -7,10 +7,9 @@
         <PackageVersion Include="IDisposableAnalyzers" Version="4.0.8" />
         <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.21.0.135717" />
         <!-- Web -->
-        <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.5" />
+        <PackageVersion Include="MailKit" Version="4.15.1" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.5" PrivateAssets="all" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5" PrivateAssets="all" />
-        <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
         <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
         <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
         <PackageVersion Include="Serilog.Sinks.MSSqlServer" Version="9.0.4-dev-00160" />

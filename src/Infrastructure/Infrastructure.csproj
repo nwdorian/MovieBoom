@@ -1,13 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+        <PackageReference Include="MailKit" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="Authorization\" />
         <Folder Include="Database\" />
+        <Folder Include="Emails\" />
         <Folder Include="Genres\" />
         <Folder Include="Movies\" />
-        <Folder Include="Roles\" />
         <Folder Include="Users\" />
     </ItemGroup>
     <ItemGroup>

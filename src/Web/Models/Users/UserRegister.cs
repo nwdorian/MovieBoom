@@ -2,8 +2,16 @@
 
 namespace Web.Models.Users;
 
-public class UserCreate
+public class UserRegister
 {
+    [Display(Name = "First name")]
+    [StringLength(120)]
+    public string? FirstName { get; set; }
+
+    [Display(Name = "Last name")]
+    [StringLength(120)]
+    public string? LastName { get; set; }
+
     [Required]
     [EmailAddress]
     [Display(Name = "Email")]

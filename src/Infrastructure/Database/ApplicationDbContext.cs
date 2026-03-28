@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.Database;
 using Domain.Genres;
 using Domain.Movies;
-using Infrastructure.Roles;
+using Infrastructure.Authorization;
 using Infrastructure.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,6 @@
 ﻿using Domain.Genres;
 using Domain.Movies;
+using Infrastructure.Authorization;
 using Infrastructure.Genres;
 using Infrastructure.Movies;
 using Infrastructure.Users;
@@ -12,14 +13,28 @@ namespace Infrastructure.Database;
 public class DataSeeder(
     ApplicationDbContext dbContext,
     UserManager<ApplicationUser> userManager,
+    RoleManager<ApplicationRole> roleManager,
     ILogger<DataSeeder> logger
 )
 {
     public async Task SeedAsync()
     {
+        await SeedRolesAsync();
         await SeedUserAsync();
         await SeedGenresAsync();
         await SeedMoviesAsync();
+    }
+
+    private async Task SeedRolesAsync()
+    {
+        if (await roleManager.RoleExistsAsync(Roles.Member))
+        {
+            logger.LogInformation("{Role} role already exists", Roles.Member);
+        }
+
+        await roleManager.CreateAsync(new ApplicationRole() { Name = Roles.Member });
+
+        logger.LogInformation("{Role} role created", Roles.Member);
     }
 
     private async Task SeedUserAsync()
@@ -42,6 +57,8 @@ public class DataSeeder(
             );
             return;
         }
+
+        await userManager.AddToRoleAsync(user, Roles.Member);
 
         logger.LogInformation("Demo user created.");
     }
