@@ -9,6 +9,7 @@ public class ResetPassword
     public string Password { get; set; } = string.Empty;
 
     [DataType(DataType.Password)]
+    [Display(Name = "Confirm password")]
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
     public string ConfirmPassword { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
