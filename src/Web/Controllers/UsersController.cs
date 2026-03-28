@@ -1,5 +1,4 @@
-﻿using System.Text.Encodings.Web;
-using Application.Abstractions.Emails;
+﻿using Application.Abstractions.Emails;
 using Application.Contracts.Emails;
 using Infrastructure.Authorization;
 using Infrastructure.Users;
@@ -49,7 +48,7 @@ public class UsersController(
         EmailRequest emailRequest = new(
             user.Email,
             "Confirmation email link",
-            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callback!)}'>clicking here</a>."
+            $"Please confirm your account by <a href='{callback!}'>clicking here</a>."
         );
         await emailService.SendEmail(emailRequest);
 
@@ -159,7 +158,7 @@ public class UsersController(
         EmailRequest emailRequest = new(
             user.Email!,
             "Reset password link",
-            $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callback!)}'>clicking here</a>."
+            $"Please reset your password by <a href='{callback!}'>clicking here</a>."
         );
 
         await emailService.SendEmail(emailRequest);
