@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Application;
 using Infrastructure;
 using Serilog;
 using Web.Extensions;
@@ -14,6 +15,7 @@ try
     WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddPresentation(builder.Configuration);
+    builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.ConfigureServices();
 

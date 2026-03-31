@@ -9,6 +9,12 @@
         <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="Constants\" />
         <Folder Include="Extensions\" />
+        <Folder Include="Models\Movies\" />
+        <Folder Include="Models\Movies\Extensions\" />
+        <Folder Include="Models\Movies\Items\" />
+        <Folder Include="Models\Movies\Requests\" />
+        <Folder Include="Models\Shared\" />
     </ItemGroup>
 </Project>
