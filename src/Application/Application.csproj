@@ -8,6 +8,7 @@
         <Folder Include="Abstractions\Emails\" />
         <Folder Include="Abstractions\Genres\" />
         <Folder Include="Abstractions\Movies\" />
+        <Folder Include="Abstractions\Users\" />
         <Folder Include="Contracts\" />
         <Folder Include="Contracts\Emails\" />
         <Folder Include="Genres\" />

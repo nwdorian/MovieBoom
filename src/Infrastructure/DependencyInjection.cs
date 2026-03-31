@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Database;
+using Application.Abstractions.Users;
 using Infrastructure.Authorization;
 using Infrastructure.Database;
 using Infrastructure.Users;
@@ -16,6 +17,8 @@ public static class DependencyInjection
         services.AddDatabase(configuration);
         services.AddScoped<DataSeeder>();
         services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomClaimsFactory>();
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserContext, UserContext>();
     }
 
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
