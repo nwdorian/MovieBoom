@@ -62,4 +62,18 @@ public class MovieService(IApplicationDbContext dbContext, IUserContext userCont
 
         return Result.Success();
     }
+
+    public async Task<Result> Delete(DeleteMovieCommand command, CancellationToken cancellationToken)
+    {
+        Movie? movie = await dbContext.Movies.FirstOrDefaultAsync(m => m.Id == command.Id, cancellationToken);
+        if (movie is null)
+        {
+            return MovieErrors.NotFoundById(command.Id);
+        }
+
+        dbContext.Movies.Remove(movie);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
+    }
 }
