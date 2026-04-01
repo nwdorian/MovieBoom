@@ -3,11 +3,14 @@ using Application.Abstractions.Genres;
 using Application.Abstractions.Movies;
 using Application.Common;
 using Application.Genres.Responses;
+using Application.Movies.Commands;
 using Application.Movies.Pagination;
 using Application.Movies.Queries;
 using Application.Movies.Responses;
+using Domain.Common.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Constants;
 using Web.Models;
 using Web.Models.Movies;
 using Web.Models.Movies.Requests;
@@ -34,6 +37,40 @@ public class HomeController(IMovieService movieService, IGenreService genreServi
         IReadOnlyList<GetGenresResponse> genres = await genreService.GetAllGenres(cancellationToken);
 
         return View(MovieIndex.Create(request, page, genres));
+    }
+
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> Create(CancellationToken cancellationToken)
+    {
+        return PartialView(
+            Partials.CreateMovie,
+            MovieCreate.Create(await genreService.GetAllGenres(cancellationToken))
+        );
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Create(MovieCreate model, CancellationToken cancellationToken)
+    {
+        IReadOnlyList<GetGenresResponse> genres = await genreService.GetAllGenres(cancellationToken);
+
+        if (!ModelState.IsValid)
+        {
+            model.SetGenres(genres);
+            return PartialView(Partials.CreateMovie, model);
+        }
+
+        CreateMovieCommand command = new(model.GenreId, model.Title, model.ReleaseDate, model.Price, model.Rating);
+        Result create = await movieService.Create(command, cancellationToken);
+        if (create.IsFailure)
+        {
+            ModelState.AddModelError(string.Empty, create.Error.Description);
+            model.SetGenres(genres);
+            return PartialView(Partials.CreateMovie, model);
+        }
+
+        return Created();
     }
 
     [Authorize]

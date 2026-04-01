@@ -13,6 +13,7 @@
         <Folder Include="Contracts\Emails\" />
         <Folder Include="Genres\" />
         <Folder Include="Genres\Responses\" />
+        <Folder Include="Movies\Commands\" />
         <Folder Include="Movies\Pagination\" />
     </ItemGroup>
     <ItemGroup>

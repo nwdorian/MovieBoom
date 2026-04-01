@@ -7,6 +7,10 @@
 
 
 <form id="filter-form" asp-controller="Home" asp-action="Index" method="get">
+    <button type="button" class="btn btn-primary" onclick="loadModal('Home', 'Create')">
+        Add movie
+    </button>
+
     <div>
         <input class="form-control" type="text" name="SearchTerm" value="@Model.Filter?.SearchTerm"
                placeholder="Find by title..." />
@@ -115,3 +119,9 @@
         </select>
     </div>
 </div>
+
+<div id="modal-placeholder"></div>
+
+@section Scripts {
+    <script src="~/js/modalManager.js"></script>
+}

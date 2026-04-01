@@ -4,5 +4,5 @@ namespace Application.Abstractions.Genres;
 
 public interface IGenreService
 {
-    Task<List<GetGenresResponse>> GetAllGenres(CancellationToken cancellationToken);
+    Task<IReadOnlyList<GetGenresResponse>> GetAllGenres(CancellationToken cancellationToken);
 }
