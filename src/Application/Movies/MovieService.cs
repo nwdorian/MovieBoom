@@ -2,10 +2,14 @@
 using Application.Abstractions.Movies;
 using Application.Abstractions.Users;
 using Application.Common;
+using Application.Movies.Commands;
 using Application.Movies.Pagination;
 using Application.Movies.Queries;
 using Application.Movies.Responses;
+using Domain.Common.Results;
+using Domain.Genres;
 using Domain.Movies;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Movies;
 
@@ -32,5 +36,30 @@ public class MovieService(IApplicationDbContext dbContext, IUserContext userCont
         ));
 
         return await PagedList<GetMoviesResponse>.Create(movieResponsesQuery, query.Paging, cancellationToken);
+    }
+
+    public async Task<Result> Create(CreateMovieCommand command, CancellationToken cancellationToken)
+    {
+        bool genreExists = await dbContext.Genres.AnyAsync(g => g.Id == command.GenreId, cancellationToken);
+        if (!genreExists)
+        {
+            return GenreErrors.NotFoundById(command.GenreId);
+        }
+
+        Movie movie = new()
+        {
+            Id = Guid.NewGuid(),
+            GenreId = command.GenreId,
+            UserId = userContext.UserId,
+            Title = command.Title,
+            ReleaseDate = command.ReleaseDate,
+            Price = command.Price,
+            Rating = command.Rating,
+        };
+
+        dbContext.Movies.Add(movie);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
     }
 }
