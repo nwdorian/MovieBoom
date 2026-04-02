@@ -97,4 +97,31 @@ public class MovieService(IApplicationDbContext dbContext, IUserContext userCont
 
         return Result.Success();
     }
+
+    public async Task<Result> Update(UpdateMovieCommand command, CancellationToken cancellationToken)
+    {
+        Movie? movie = await dbContext
+            .Movies.AsTracking()
+            .FirstOrDefaultAsync(m => m.Id == command.Id && m.UserId == userContext.UserId, cancellationToken);
+        if (movie is null)
+        {
+            return MovieErrors.NotFoundById(command.Id);
+        }
+
+        bool genreExists = await dbContext.Genres.AnyAsync(g => g.Id == command.GenreId, cancellationToken);
+        if (!genreExists)
+        {
+            return GenreErrors.NotFoundById(command.GenreId);
+        }
+
+        movie.GenreId = command.GenreId;
+        movie.Title = command.Title;
+        movie.ReleaseDate = command.ReleaseDate;
+        movie.Price = command.Price;
+        movie.Rating = command.Rating;
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
+    }
 }

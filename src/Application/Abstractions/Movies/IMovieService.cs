@@ -12,4 +12,5 @@ public interface IMovieService
     Task<Result<GetMovieByIdResponse>> GetById(GetMovieByIdQuery query, CancellationToken cancellationToken);
     Task<Result> Create(CreateMovieCommand command, CancellationToken cancellationToken);
     Task<Result> Delete(DeleteMovieCommand command, CancellationToken cancellationToken);
+    Task<Result> Update(UpdateMovieCommand command, CancellationToken cancellationToken);
 }
