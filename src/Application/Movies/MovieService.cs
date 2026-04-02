@@ -38,6 +38,24 @@ public class MovieService(IApplicationDbContext dbContext, IUserContext userCont
         return await PagedList<GetMoviesResponse>.Create(movieResponsesQuery, query.Paging, cancellationToken);
     }
 
+    public async Task<Result<GetMovieByIdResponse>> GetById(
+        GetMovieByIdQuery query,
+        CancellationToken cancellationToken
+    )
+    {
+        GetMovieByIdResponse? response = await dbContext
+            .Movies.Where(m => m.Id == query.Id && m.UserId == userContext.UserId)
+            .Select(m => new GetMovieByIdResponse(m.Id, m.Title, m.Genre.Name, m.ReleaseDate, m.Price, m.Rating))
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (response is null)
+        {
+            return MovieErrors.NotFoundById(query.Id);
+        }
+
+        return response;
+    }
+
     public async Task<Result> Create(CreateMovieCommand command, CancellationToken cancellationToken)
     {
         bool genreExists = await dbContext.Genres.AnyAsync(g => g.Id == command.GenreId, cancellationToken);
@@ -58,6 +76,23 @@ public class MovieService(IApplicationDbContext dbContext, IUserContext userCont
         };
 
         dbContext.Movies.Add(movie);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
+    }
+
+    public async Task<Result> Delete(DeleteMovieCommand command, CancellationToken cancellationToken)
+    {
+        Movie? movie = await dbContext.Movies.FirstOrDefaultAsync(
+            m => m.Id == command.Id && m.UserId == userContext.UserId,
+            cancellationToken
+        );
+        if (movie is null)
+        {
+            return MovieErrors.NotFoundById(command.Id);
+        }
+
+        dbContext.Movies.Remove(movie);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
