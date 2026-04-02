@@ -9,6 +9,7 @@ namespace Application.Abstractions.Movies;
 public interface IMovieService
 {
     Task<PagedList<GetMoviesResponse>> GetMoviesPage(GetMoviesQuery query, CancellationToken cancellationToken);
+    Task<Result<GetMovieByIdResponse>> GetById(GetMovieByIdQuery query, CancellationToken cancellationToken);
     Task<Result> Create(CreateMovieCommand command, CancellationToken cancellationToken);
     Task<Result> Delete(DeleteMovieCommand command, CancellationToken cancellationToken);
 }

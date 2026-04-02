@@ -51,6 +51,7 @@ public class HomeController(IMovieService movieService, IGenreService genreServi
 
     [Authorize]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(MovieCreate model, CancellationToken cancellationToken)
     {
         IReadOnlyList<GetGenresResponse> genres = await genreService.GetAllGenres(cancellationToken);
@@ -71,6 +72,45 @@ public class HomeController(IMovieService movieService, IGenreService genreServi
         }
 
         return Created();
+    }
+
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        Result<GetMovieByIdResponse> getById = await movieService.GetById(new GetMovieByIdQuery(id), cancellationToken);
+        if (getById.IsFailure)
+        {
+            ModelState.AddModelError(string.Empty, getById.Error.Description);
+            return PartialView(Partials.DeleteMovie, MovieDelete.Empty);
+        }
+
+        return PartialView(Partials.DeleteMovie, MovieDelete.Create(getById.Value));
+    }
+
+    [Authorize]
+    [HttpPost, ActionName(nameof(Delete))]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        Result delete = await movieService.Delete(new DeleteMovieCommand(id), cancellationToken);
+        if (delete.IsFailure)
+        {
+            ModelState.AddModelError(string.Empty, delete.Error.Description);
+            return PartialView(Partials.DeleteMovie, MovieDelete.Empty);
+        }
+
+        return NoContent();
     }
 
     [Authorize]
