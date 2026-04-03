@@ -114,6 +114,53 @@ public class HomeController(IMovieService movieService, IGenreService genreServi
     }
 
     [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> Update(Guid id, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        Result<GetMovieByIdResponse> getById = await movieService.GetById(new GetMovieByIdQuery(id), cancellationToken);
+        if (getById.IsFailure)
+        {
+            ModelState.AddModelError(string.Empty, getById.Error.Description);
+            return PartialView(Partials.UpdateMovie, MovieUpdate.Empty);
+        }
+
+        IReadOnlyList<GetGenresResponse> genres = await genreService.GetAllGenres(cancellationToken);
+
+        return PartialView(Partials.UpdateMovie, MovieUpdate.Create(getById.Value, genres));
+    }
+
+    [Authorize]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Update(Guid id, MovieUpdate model, CancellationToken cancellationToken)
+    {
+        IReadOnlyList<GetGenresResponse> genres = await genreService.GetAllGenres(cancellationToken);
+
+        if (!ModelState.IsValid)
+        {
+            model.SetGenres(genres);
+            return PartialView(Partials.UpdateMovie, model);
+        }
+
+        UpdateMovieCommand command = new(id, model.GenreId, model.Title, model.ReleaseDate, model.Price, model.Rating);
+        Result update = await movieService.Update(command, cancellationToken);
+
+        if (update.IsFailure)
+        {
+            ModelState.AddModelError(string.Empty, update.Error.Description);
+            model.SetGenres(genres);
+            return PartialView(Partials.UpdateMovie, model);
+        }
+
+        return NoContent();
+    }
+
+    [Authorize]
     public IActionResult Privacy()
     {
         return View();

@@ -1,10 +1,9 @@
-namespace Application.Movies.Responses;
+namespace Application.Movies.Commands;
 
-public record class GetMovieByIdResponse(
+public record class UpdateMovieCommand(
     Guid Id,
     Guid GenreId,
     string Title,
-    string GenreName,
     DateOnly ReleaseDate,
     decimal Price,
     int Rating
