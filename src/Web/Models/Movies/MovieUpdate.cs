@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Application.Genres.Responses;
+using Application.Movies.Responses;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web.Models.Movies;
@@ -43,10 +44,18 @@ public class MovieUpdate
             Rating = 0,
         };
 
-    public static MovieUpdate Create(IReadOnlyList<GetGenresResponse> genres)
+    public static MovieUpdate Create(GetMovieByIdResponse movie, IReadOnlyList<GetGenresResponse> genres)
     {
-        MovieUpdate model = new();
-        model.SetGenres(genres);
+        MovieUpdate model = new()
+        {
+            Genres = new SelectList(genres, "Id", "Name", selectedValue: movie.GenreId),
+            Title = movie.Title,
+            GenreId = movie.GenreId,
+            ReleaseDate = movie.ReleaseDate,
+            Price = movie.Price,
+            Rating = movie.Rating,
+        };
+
         return model;
     }
 

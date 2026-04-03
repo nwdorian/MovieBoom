@@ -131,7 +131,7 @@ public class HomeController(IMovieService movieService, IGenreService genreServi
 
         IReadOnlyList<GetGenresResponse> genres = await genreService.GetAllGenres(cancellationToken);
 
-        return PartialView(Partials.UpdateMovie, MovieUpdate.Create(genres));
+        return PartialView(Partials.UpdateMovie, MovieUpdate.Create(getById.Value, genres));
     }
 
     [Authorize]

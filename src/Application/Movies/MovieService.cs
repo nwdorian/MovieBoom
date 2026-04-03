@@ -45,7 +45,15 @@ public class MovieService(IApplicationDbContext dbContext, IUserContext userCont
     {
         GetMovieByIdResponse? response = await dbContext
             .Movies.Where(m => m.Id == query.Id && m.UserId == userContext.UserId)
-            .Select(m => new GetMovieByIdResponse(m.Id, m.Title, m.Genre.Name, m.ReleaseDate, m.Price, m.Rating))
+            .Select(m => new GetMovieByIdResponse(
+                m.Id,
+                m.GenreId,
+                m.Title,
+                m.Genre.Name,
+                m.ReleaseDate,
+                m.Price,
+                m.Rating
+            ))
             .FirstOrDefaultAsync(cancellationToken);
 
         if (response is null)
