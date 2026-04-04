@@ -6,43 +6,48 @@
 }
 
 
-<form id="filter-form" asp-controller="Home" asp-action="Index" method="get">
-    <button type="button" class="btn btn-primary" onclick="loadModal('Home', 'Create')">
-        Add movie
-    </button>
+<div class="card mb-3">
+    <div class="card-body movie-filters">
+        <form id="filter-form" asp-controller="Home" asp-action="Index" method="get" class="d-flex flex-wrap gap-2 align-items-end">
+            <button type="button" class="btn btn-primary" onclick="loadModal('Home', 'Create')">
+                Add movie
+            </button>
 
-    <div>
-        <input class="form-control" type="text" name="SearchTerm" value="@Model.Filter?.SearchTerm"
-               placeholder="Find by title..." />
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
+            <div class="movie-filter-search">
+                <input id="search-input" class="form-control" type="text" name="SearchTerm" value="@Model.Filter?.SearchTerm"
+                       placeholder="Find by title…" />
+            </div>
 
-    <div>
-        <label for="genres-dropdown">Genre:</label>
-        <select class="form-select" id="genres-dropdown" name="GenreName" asp-items="Model.Genres"
-                onchange="this.form.submit()">
-            <option value="">All</option>
-        </select>
-    </div>
+            <button type="submit" class="btn btn-primary">Search</button>
 
-    <div>
-        <label for="start-price">Price from:</label>
-        <input id="start-price" type="number" name="StartPrice" value="@Model.Filter?.StartPrice.ToString()" step="0.1"
-               min="0" onblur="this.form.submit()" />
-    </div>
+            <div class="movie-filter-select">
+                <label for="genres-dropdown">Genre:</label>
+                <select class="form-select" id="genres-dropdown" name="GenreName" asp-items="Model.Genres"
+                        onchange="this.form.submit()">
+                    <option value="">All</option>
+                </select>
+            </div>
 
-    <div>
-        <label for="end-price">Price to:</label>
-        <input id="end-price" type="number" name="EndPrice" value="@Model.Filter?.EndPrice.ToString()" step="0.1"
-               min="0" onblur="this.form.submit()" />
-    </div>
+            <div class="movie-filter-price">
+                <label for="start-price">Price:</label>
+                <div class="d-flex gap-1">
+                    <input id="start-price" class="form-control" type="number" name="StartPrice" value="@Model.Filter?.StartPrice.ToString()" step="0.1"
+                           min="0" placeholder="From" onblur="this.form.submit()" />
+                    <input id="end-price" class="form-control" type="number" name="EndPrice" value="@Model.Filter?.EndPrice.ToString()" step="0.1"
+                           min="0" placeholder="To" onblur="this.form.submit()" />
+                </div>
+            </div>
 
-    <div>
-        <label>Sort:</label>
-        <select name="SortColumn" asp-items="Model.SortColumns" onchange="this.form.submit()"></select>
-        <select name="SortOrder" asp-items="Model.SortOrders" onchange="this.form.submit()"></select>
+            <div class="movie-filter-sort">
+                <label for="sort-column">Sort:</label>
+                <div class="d-flex gap-1">
+                    <select id="sort-column" class="form-select" name="SortColumn" asp-items="Model.SortColumns" onchange="this.form.submit()"></select>
+                    <select class="form-select" name="SortOrder" asp-items="Model.SortOrders" onchange="this.form.submit()"></select>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
+</div>
 
 <table class="table">
     <thead>
@@ -86,12 +91,14 @@
                 </td>
                 <td class="text-end">
                     <button type="button" class="btn btn-outline-primary"
-                            onclick="loadModal('Home', 'Update', '@movie.Id')">
-                        <i class="bi bi-pencil-square"></i>
+                            onclick="loadModal('Home', 'Update', '@movie.Id')"
+                            aria-label="Edit movie">
+                        <i class="bi bi-pencil-square" aria-hidden="true"></i>
                     </button>
                     <button type="button" class="btn btn-outline-primary"
-                            onclick="loadModal('Home', 'Delete', '@movie.Id')">
-                        <i class="bi bi-trash3"></i>
+                            onclick="loadModal('Home', 'Delete', '@movie.Id')"
+                            aria-label="Delete movie">
+                        <i class="bi bi-trash3" aria-hidden="true"></i>
                     </button>
                 </td>
             </tr>
@@ -99,13 +106,13 @@
     </tbody>
 </table>
 
-<div>
-    <ul class="pagination">
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <ul class="pagination mb-0">
         <li class="page-item @(Model.PagingMetadata.HasPreviousPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-all-route-data="@Model.ToPagingRouteValues()"
+                <a class="page-link" asp-action="Index" asp-all-route-data="@Model.ToPagingRouteValues()"
                    asp-route-pageNumber="@(Model.PagingMetadata.PageNumber - 1)">
-                <i class="bi bi-caret-left-fill"></i>
-            </a>
+                    <i class="bi bi-caret-left-fill" aria-hidden="true"></i>
+                </a>
         </li>
         @for (var i = Model.PagingMetadata.StartPage; i <= Model.PagingMetadata.EndPage; i++)
         {
@@ -117,14 +124,14 @@
             </li>
         }
         <li class="page-item @(Model.PagingMetadata.HasNextPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-all-route-data="@Model.ToPagingRouteValues()"
+                <a class="page-link" asp-action="Index" asp-all-route-data="@Model.ToPagingRouteValues()"
                    asp-route-pageNumber="@(Model.PagingMetadata.PageNumber + 1)">
-                <i class="bi bi-caret-right-fill"></i>
-            </a>
+                    <i class="bi bi-caret-right-fill" aria-hidden="true"></i>
+                </a>
         </li>
     </ul>
-    <div>
-        <label for="page-size-dropdown">Page size:</label>
+    <div class="d-flex align-items-center gap-2">
+        <label for="page-size-dropdown" class="mb-0">Page size:</label>
         <select class="form-select" id="page-size-dropdown" form="filter-form" name="PageSize"
                 asp-items="Model.PageSizes" onchange="document.getElementById('filter-form').submit()">
         </select>
