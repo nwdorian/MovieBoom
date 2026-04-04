@@ -8,14 +8,15 @@
 
 <div class="card mb-3">
     <div class="card-body movie-filters">
-        <form id="filter-form" asp-controller="Home" asp-action="Index" method="get" class="d-flex flex-wrap gap-2 align-items-end">
+        <form id="filter-form" asp-controller="Home" asp-action="Index" method="get"
+              class="d-flex flex-wrap gap-2 align-items-end">
             <button type="button" class="btn btn-primary" onclick="loadModal('Home', 'Create')">
                 Add movie
             </button>
 
             <div class="movie-filter-search">
-                <input id="search-input" class="form-control" type="text" name="SearchTerm" value="@Model.Filter?.SearchTerm"
-                       placeholder="Find by title…" />
+                <input id="search-input" class="form-control" type="text" name="SearchTerm"
+                       value="@Model.Filter?.SearchTerm" placeholder="Find by title…" />
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
 
@@ -30,18 +31,22 @@
             <div class="movie-filter-price">
                 <label for="start-price">Price:</label>
                 <div class="d-flex gap-1">
-                    <input id="start-price" class="form-control" type="number" name="StartPrice" value="@Model.Filter?.StartPrice.ToString()" step="0.1"
-                           min="0" placeholder="From" onblur="this.form.submit()" />
-                    <input id="end-price" class="form-control" type="number" name="EndPrice" value="@Model.Filter?.EndPrice.ToString()" step="0.1"
-                           min="0" placeholder="To" onblur="this.form.submit()" />
+                    <input id="start-price" class="form-control" type="number" name="StartPrice"
+                           value="@Model.Filter?.StartPrice.ToString()" step="0.1" min="0" placeholder="From"
+                           onblur="this.form.submit()" />
+                    <input id="end-price" class="form-control" type="number" name="EndPrice"
+                           value="@Model.Filter?.EndPrice.ToString()" step="0.1" min="0" placeholder="To"
+                           onblur="this.form.submit()" />
                 </div>
             </div>
 
             <div class="movie-filter-sort">
                 <label for="sort-column">Sort:</label>
                 <div class="d-flex gap-1">
-                    <select id="sort-column" class="form-select" name="SortColumn" asp-items="Model.SortColumns" onchange="this.form.submit()"></select>
-                    <select class="form-select" name="SortOrder" asp-items="Model.SortOrders" onchange="this.form.submit()"></select>
+                    <select id="sort-column" class="form-select" name="SortColumn" asp-items="Model.SortColumns"
+                            onchange="this.form.submit()"></select>
+                    <select class="form-select" name="SortOrder" asp-items="Model.SortOrders"
+                            onchange="this.form.submit()"></select>
                 </div>
             </div>
         </form>
@@ -89,13 +94,11 @@
                     @Html.DisplayFor(model => movie.Rating)
                 </td>
                 <td class="text-end">
-                    <button type="button" class="btn btn-outline-primary"
-                            onclick="loadModal('Home', 'Update', '@movie.Id')"
+                    <button type="button" class="btn btn-outline-primary" onclick="loadModal('Home', 'Update', '@movie.Id')"
                             aria-label="Edit movie">
                         <i class="bi bi-pencil-square" aria-hidden="true"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-primary"
-                            onclick="loadModal('Home', 'Delete', '@movie.Id')"
+                    <button type="button" class="btn btn-outline-primary" onclick="loadModal('Home', 'Delete', '@movie.Id')"
                             aria-label="Delete movie">
                         <i class="bi bi-trash3" aria-hidden="true"></i>
                     </button>
@@ -108,10 +111,10 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
     <ul class="pagination mb-0">
         <li class="page-item @(Model.PagingMetadata.HasPreviousPage ? "" : "disabled")">
-                <a class="page-link" asp-action="Index" asp-all-route-data="@Model.ToPagingRouteValues()"
+            <a class="page-link" asp-action="Index" asp-all-route-data="@Model.ToPagingRouteValues()"
                    asp-route-pageNumber="@(Model.PagingMetadata.PageNumber - 1)">
-                    <i class="bi bi-caret-left-fill" aria-hidden="true"></i>
-                </a>
+                <i class="bi bi-caret-left-fill" aria-hidden="true"></i>
+            </a>
         </li>
         @for (var i = Model.PagingMetadata.StartPage; i <= Model.PagingMetadata.EndPage; i++)
         {
@@ -123,14 +126,14 @@
             </li>
         }
         <li class="page-item @(Model.PagingMetadata.HasNextPage ? "" : "disabled")">
-                <a class="page-link" asp-action="Index" asp-all-route-data="@Model.ToPagingRouteValues()"
+            <a class="page-link" asp-action="Index" asp-all-route-data="@Model.ToPagingRouteValues()"
                    asp-route-pageNumber="@(Model.PagingMetadata.PageNumber + 1)">
-                    <i class="bi bi-caret-right-fill" aria-hidden="true"></i>
-                </a>
+                <i class="bi bi-caret-right-fill" aria-hidden="true"></i>
+            </a>
         </li>
     </ul>
     <div class="d-flex align-items-center gap-2">
-        <label for="page-size-dropdown" class="mb-0">Page size:</label>
+        <label for="page-size-dropdown" class="mb-0 text-nowrap">Page size:</label>
         <select class="form-select" id="page-size-dropdown" form="filter-form" name="PageSize"
                 asp-items="Model.PageSizes" onchange="document.getElementById('filter-form').submit()">
         </select>
