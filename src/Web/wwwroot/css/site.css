@@ -65,23 +65,9 @@ body {
 
 .movie-filter-search {
     flex: 1 1 100%;
-    min-width: 150px;
+    min-width: 0;
     display: flex;
     gap: 0.5rem;
-}
-
-.movie-filter-search .form-control {
-    flex: 1;
-}
-
-@media (min-width: 768px) {
-    .movie-filter-search {
-        flex: 2 1 0;
-    }
-
-    .movie-filter-search .form-control {
-        width: 100%;
-    }
 }
 
 .movie-filter-select {
