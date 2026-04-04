@@ -49,3 +49,58 @@ body {
     background-size: cover;
     background-position: center;
 }
+
+.movie-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: flex-end;
+    padding-top: 0rem;
+    padding-bottom: 0.75rem;
+}
+
+.movie-filters .form-control,
+.movie-filters .form-select {
+    min-height: calc(1.5em + 0.75rem + 2px);
+    width: 100%;
+}
+
+.movie-filter-search {
+    flex: 1 1 100%;
+    min-width: 0;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.movie-filter-select {
+    flex: 1 1 100%;
+    min-width: 150px;
+}
+
+.movie-filter-price {
+    flex: 1 1 100%;
+    min-width: 200px;
+}
+
+.movie-filter-sort {
+    flex: 1 1 100%;
+    min-width: 200px;
+}
+
+@media (min-width: 768px) {
+    .movie-filter-search {
+        flex: 2 1 0;
+    }
+
+    .movie-filter-select {
+        flex: 1 1 0;
+    }
+
+    .movie-filter-price {
+        flex: 1 1 0;
+    }
+
+    .movie-filter-sort {
+        flex: 2 1 0;
+    }
+}
