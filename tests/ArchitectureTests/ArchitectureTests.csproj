@@ -11,4 +11,12 @@
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Web\Web.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Layers\" />
+    </ItemGroup>
 </Project>
