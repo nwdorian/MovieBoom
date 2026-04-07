@@ -30,6 +30,7 @@ public class DataSeeder(
         if (await roleManager.RoleExistsAsync(Roles.Member))
         {
             logger.LogInformation("{Role} role already exists", Roles.Member);
+            return;
         }
 
         await roleManager.CreateAsync(new ApplicationRole() { Name = Roles.Member });
