@@ -1,8 +1,9 @@
 using Application.Abstractions.Movies;
 using Application.IntegrationTests.Core;
+using Application.IntegrationTests.Movies.Data;
 using Application.Movies.Commands;
 using Domain.Common.Results;
-using Infrastructure.Genres;
+using Domain.Genres;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
@@ -15,7 +16,18 @@ public class MovieServicesTests(IntegrationTestWebAppFactory factory) : BaseInte
     [Fact]
     public async Task Create_ShouldReturnGenreNotFound_WhenGenreDoesNotExist()
     {
-        CreateMovieCommand command = new(GenreFaker.ActionId, "Example", DateOnly.FromDateTime(DateTime.Now), 10, 10);
+        CreateMovieCommand command = CreateMovieCommandData.Create() with { GenreId = Guid.Empty };
+
+        Result result = await _movieService.Create(command, CancellationToken.None);
+
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldBeEquivalentTo(GenreErrors.NotFoundById(Guid.Empty));
+    }
+
+    [Fact]
+    public async Task Create_ShouldReturnSuccess_WhenMovieWasCreated()
+    {
+        CreateMovieCommand command = CreateMovieCommandData.Create();
 
         Result result = await _movieService.Create(command, CancellationToken.None);
 
