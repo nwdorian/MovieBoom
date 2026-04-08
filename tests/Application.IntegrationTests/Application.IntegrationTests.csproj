@@ -13,8 +13,6 @@
     <ItemGroup>
         <Folder Include="Core\" />
         <Folder Include="Core\Services\" />
-        <Folder Include="Movies\" />
-        <Folder Include="Movies\Data\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\Web\Web.csproj" />
