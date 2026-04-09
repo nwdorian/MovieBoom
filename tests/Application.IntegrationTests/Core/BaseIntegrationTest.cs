@@ -4,28 +4,24 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application.IntegrationTests.Core;
 
 [Collection(nameof(SharedTestCollection))]
-public abstract class BaseIntegrationTest : IAsyncLifetime
+public abstract class BaseIntegrationTest(IntegrationTestWebAppFactory factory) : IAsyncLifetime
 {
-    private readonly IServiceScope _scope;
-    protected readonly IntegrationTestWebAppFactory Factory;
-    protected readonly ApplicationDbContext DbContext;
-
-    protected BaseIntegrationTest(IntegrationTestWebAppFactory factory)
-    {
-        _scope = factory.Services.CreateScope();
-
-        Factory = factory;
-        DbContext = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    }
+    private readonly AsyncServiceScope _scope = factory.Services.CreateAsyncScope();
+    private readonly IntegrationTestWebAppFactory _factory = factory;
+    private ApplicationDbContext _dbContext = null!;
+    protected AsyncServiceScope Scope => _scope;
+    protected ApplicationDbContext DbContext => _dbContext;
 
     public async ValueTask InitializeAsync()
     {
-        await Factory.ResetAndSeedAsync();
+        _dbContext = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await _factory.ResetAndSeedAsync();
     }
 
-    public ValueTask DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
-        _scope.Dispose();
-        return ValueTask.CompletedTask;
+        await _scope.DisposeAsync();
+        await _dbContext.DisposeAsync();
+        GC.SuppressFinalize(this);
     }
 }

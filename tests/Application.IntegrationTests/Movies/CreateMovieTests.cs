@@ -11,7 +11,7 @@ namespace Application.IntegrationTests.Movies;
 
 public class CreateMovieTests(IntegrationTestWebAppFactory factory) : BaseIntegrationTest(factory)
 {
-    private IMovieService _movieService => Factory.Services.GetRequiredService<IMovieService>();
+    private IMovieService _movieService => Scope.ServiceProvider.GetRequiredService<IMovieService>();
 
     [Fact]
     public async Task Create_ShouldReturnGenreNotFound_WhenGenreDoesNotExist()
