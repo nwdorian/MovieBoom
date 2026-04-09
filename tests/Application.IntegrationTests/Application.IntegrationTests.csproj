@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="Respawn" />
+        <PackageReference Include="Shouldly" />
+        <PackageReference Include="Testcontainers" />
+        <PackageReference Include="Testcontainers.MsSql" />
+        <PackageReference Include="xunit.runner.visualstudio" />
+        <PackageReference Include="xunit.v3" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Core\" />
+        <Folder Include="Core\Services\" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Web\Web.csproj" />
+    </ItemGroup>
+</Project>

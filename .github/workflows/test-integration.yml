@@ -1,0 +1,35 @@
+name: Integration Tests
+
+on:
+    workflow_run:
+        workflows: [Build]
+        types: [completed]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+        services:
+            docker:
+                image: linuxserver/docker:24.0.9
+                options: --entrypoint ""
+                volumes:
+                    - /var/run/docker.sock:/var/run/docker.sock
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: "10.0.x"
+
+            - name: Restore
+              run: dotnet restore tests/Application.IntegrationTests/Application.IntegrationTests.csproj
+
+            - name: Build
+              run: dotnet build tests/Application.IntegrationTests/Application.IntegrationTests.csproj --no-restore
+
+            - name: Run Integration Tests
+              run: dotnet test tests/Application.IntegrationTests/Application.IntegrationTests.csproj --no-build

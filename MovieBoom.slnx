@@ -17,6 +17,10 @@
         <Project Path="src/Web/Web.csproj" />
     </Folder>
     <Folder Name="/tests/">
+        <Project Path="tests/Application.IntegrationTests/Application.IntegrationTests.csproj" />
         <Project Path="tests/ArchitectureTests/ArchitectureTests.csproj" />
+    </Folder>
+    <Folder Name="/tests/Test Items/">
+        <File Path="tests/Directory.Build.props" />
     </Folder>
 </Solution>
