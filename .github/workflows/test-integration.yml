@@ -10,13 +10,6 @@ jobs:
         runs-on: ubuntu-latest
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
-        services:
-            docker:
-                image: linuxserver/docker:24.0.9
-                options: --entrypoint ""
-                volumes:
-                    - /var/run/docker.sock:/var/run/docker.sock
-
         steps:
             - uses: actions/checkout@v4
 
