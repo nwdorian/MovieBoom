@@ -1,28 +1,31 @@
 name: Integration Tests
 
 on:
-    workflow_run:
-        workflows: [Build]
-        types: [completed]
+  pull_request:
+    branches: [main]
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Restore
+        run: dotnet restore tests/Application.IntegrationTests/Application.IntegrationTests.csproj
+      - name: Build
+        run: dotnet build tests/Application.IntegrationTests/Application.IntegrationTests.csproj --no-restore
 
-        steps:
-            - uses: actions/checkout@v4
-
-            - name: Setup .NET
-              uses: actions/setup-dotnet@v4
-              with:
-                  dotnet-version: "10.0.x"
-
-            - name: Restore
-              run: dotnet restore tests/Application.IntegrationTests/Application.IntegrationTests.csproj
-
-            - name: Build
-              run: dotnet build tests/Application.IntegrationTests/Application.IntegrationTests.csproj --no-restore
-
-            - name: Run Integration Tests
-              run: dotnet test tests/Application.IntegrationTests/Application.IntegrationTests.csproj --no-build
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Run Integration Tests
+        run: dotnet test tests/Application.IntegrationTests/Application.IntegrationTests.csproj --no-build
