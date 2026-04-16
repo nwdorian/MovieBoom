@@ -1,4 +1,5 @@
-﻿using Application.Abstractions.Emails;
+﻿using System.Globalization;
+using Application.Abstractions.Emails;
 using Infrastructure.Authorization;
 using Infrastructure.Database;
 using Infrastructure.Emails;
@@ -13,6 +14,7 @@ public static class ServiceCollectionExtensions
 {
     public static void AddPresentation(this IServiceCollection services, IConfiguration configuration)
     {
+        services.SetupLocalization();
         services.AddIdentityServices();
         services.AddSerilogServices(configuration);
         services.AddControllersWithViews();
@@ -45,5 +47,12 @@ public static class ServiceCollectionExtensions
             SmtpSettings settings = sp.GetRequiredService<IOptions<SmtpSettings>>().Value;
             return new EmailService(settings);
         });
+    }
+
+    private static void SetupLocalization(this IServiceCollection services)
+    {
+        CultureInfo culture = new("en-US", useUserOverride: false);
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
     }
 }
