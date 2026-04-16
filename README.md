@@ -1,3 +1,7 @@
+[![Build](https://github.com/nwdorian/MovieBoom/actions/workflows/build.yml/badge.svg)](https://github.com/nwdorian/MovieBoom/actions/workflows/build.yml)
+[![Architecture Tests](https://github.com/nwdorian/MovieBoom/actions/workflows/test-architecture.yml/badge.svg)](https://github.com/nwdorian/MovieBoom/actions/workflows/test-architecture.yml)
+[![Integration Tests](https://github.com/nwdorian/MovieBoom/actions/workflows/test-integration.yml/badge.svg)](https://github.com/nwdorian/MovieBoom/actions/workflows/test-integration.yml)
+
 # MovieBoom
 
 A modern ASP.NET Core MVC web application built with Clean Architecture principles, featuring movie management, user authentication, and comprehensive test coverage.
